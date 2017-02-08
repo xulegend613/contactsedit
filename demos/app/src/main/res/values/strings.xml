@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">通讯录去重器</string>
+    <string name="search">查找相同联系人</string>
+</resources>

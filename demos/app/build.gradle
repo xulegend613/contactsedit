@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "com.simon.xsmdemos"
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        releaseConfig {
+            keyAlias 'orion'
+            keyPassword '123456'
+            storeFile file('orion.jks')
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+    }
+//    dexOptions {
+//        additionalParameters += '--minimal-main-dex'
+//        additionalParameters += '--main-dex-list=app/castielmaindexlist.txt'.toString()
+//        additionalParameters += '--set-max-idx-number=55000'
+//    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.0'
+}
+
+//from android studio 1.4, can't partitial dex like below
+afterEvaluate {
+    println "castiel--afterEvaluate"
+    println 'yyyyyy'
+//    println $projectDir
+    println 'xxxxx'
+
+    tasks.matching {
+        println "castiel-- name=" + it.name
+        it.name.startsWith('dex')
+
+    }.each { dx ->
+
+        def listFile = project.rootDir.absolutePath + 'app/castielmaindexlist.txt'
+        println "castiel--root dir:" + project.rootDir.absolutePath
+        println "dex task found" + dx.name
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--multi-dex'
+        dx.additionalParameters += '--main-dex-list=' + listFile
+        dx.additionalParameters += '--minimal-main-dex'
+
+
+    }
+
+}

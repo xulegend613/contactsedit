@@ -1,4 +1,25 @@
+
+buildscript {
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+    }
+}
+
+repositories {
+    maven { url "http://123.56.148.24:8081/nexus/content/repositories/releases/"}
+
+    mavenCentral()
+}
+
 apply plugin: 'com.android.application'
+
 
 android {
     compileSdkVersion 23
@@ -24,8 +45,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            zipAlignEnabled true
+//            minifyEnabled true
+//            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
         }
@@ -42,7 +63,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //add ads
+    compile 'com.simon:commondependency:1.0.2@aar'
     compile 'com.android.support:appcompat-v7:23.4.0'
+
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.0'
 }
@@ -72,5 +96,6 @@ afterEvaluate {
 
 
     }
-
 }
+
+

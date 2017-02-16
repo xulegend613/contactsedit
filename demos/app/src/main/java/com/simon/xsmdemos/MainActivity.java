@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+
 import com.simon.contacts.ContactsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+//        OrionSdk.enableLog();
+
     }
 
 
